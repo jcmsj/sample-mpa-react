@@ -33,6 +33,10 @@ export function UserUI({ p }) {
                 data={p.birthDate}
             />
             <Part
+                label="Phone #"
+                data={p.phone}
+            />
+            <Part
                 label="Sex"
                 data={p.sex}
             />
