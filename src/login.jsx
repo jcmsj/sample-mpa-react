@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Button, Card } from "@mui/material";
 import { User } from "./lib/User";
 import styles from "./login.module.css"
@@ -5,7 +6,6 @@ import cardStyles from "./lib/card.module.css"
 import SecretField from "./lib/SecretField";
 import EmailField from "./lib/EmailField";
 import { useInputDefaults } from "./lib/useInput";
-
 /**
  * @readonly
  * @enum {string}
@@ -19,7 +19,7 @@ export const LoginState = {
  * @param {{verify:(u:User) => void>, state:LoginState}} param0 
  */
 export function LoginForm({ verify, state }) {
-    const user = new User(); //Not stateful
+    const [user] = useState(new User()); //No need setState
     const [lacksEmail, onEmail] = useInputDefaults(user, "email")
     return <form
         onSubmit={e => {

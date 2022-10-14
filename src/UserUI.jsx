@@ -29,7 +29,7 @@ export function UserUI({ p }) {
                 label="Name"
                 data={p.lastName + ", " + p.firstName} />
             <Part
-                label="Birthdate"
+                label="Birth date"
                 data={p.birthDate}
             />
             <Part
