@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Card } from "@mui/material";
 import { User } from "./lib/User";
-import styles from "./login.module.css"
 import cardStyles from "./lib/card.module.css"
 import SecretField from "./lib/SecretField";
 import EmailField from "./lib/EmailField";
@@ -44,7 +43,10 @@ export function LoginForm({ verify, state }) {
                 }
             />
             <Button
-                className={styles.btn}
+                styles={{
+                    width: "max-content",
+                    alignSelf: "center"
+                }}
                 variant="contained"
                 type="submit"
             >Login
