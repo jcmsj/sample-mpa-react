@@ -32,6 +32,7 @@ export function LoginForm({ verify, state }) {
             {state == "AGAIN" ? "Incorrect username or password!":""}
             </label>
             <EmailField
+                id="email"
                 onChange={e =>
                     user.email = e.target.value
                 }
