@@ -4,6 +4,7 @@ import styles from "./login.module.css"
 import cardStyles from "./lib/card.module.css"
 import SecretField from "./lib/SecretField";
 import EmailField from "./lib/EmailField";
+import { useInputDefaults } from "./lib/useInput";
 
 /**
  * @readonly
@@ -19,6 +20,7 @@ export const LoginState = {
  */
 export function LoginForm({ verify, state }) {
     const user = new User(); //Not stateful
+    const [lacksEmail, onEmail] = useInputDefaults(user, "email")
     return <form
         onSubmit={e => {
             e.preventDefault()
@@ -33,9 +35,8 @@ export function LoginForm({ verify, state }) {
             </label>
             <EmailField
                 id="email"
-                onChange={e =>
-                    user.email = e.target.value
-                }
+                error={lacksEmail}
+                onChange={onEmail}
             />
             <SecretField
                 onChange={e =>
