@@ -31,7 +31,7 @@ export class User {
      * @param {User} other 
      */
     equals(other) {
-        return this.email === other.email && this.secret === other.secret;
+        return this.email == other.email && this.secret == other.secret;
     }
 
     static minLength = 8;
@@ -63,7 +63,6 @@ export class User {
      */
     setIfSecure(secret) {
         const lacks = User.isUnsecure(secret);
-        console.log(lacks);
         if (lacks.length == 0) {
             this.secret = secret;
         }
