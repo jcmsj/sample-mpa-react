@@ -1,43 +1,39 @@
 import { TextField, TextareaAutosize, NativeSelect, InputLabel } from '@mui/material';
 import { PersonalData} from '../lib/PersonalData';
 import { Sex } from '../lib/PersonalData';
+import {useInput, useInputDefaults} from "../lib/useInput"
 
 /**
 * @param {{pd:PersonalData}} param0
 */
 export function PersonalDataUI({ pd }) {
+    const [lacksFirstName, onFirstName] = useInputDefaults(pd,"firstName");
+    const [lacksLastName, onLastName] = useInputDefaults(pd,"lastName");
+    const [lacksPhone, onPhone] = useInput(e => {
+        e.target.value = filterNumber(e.target.value)
+        return pd.phone = isValidNumber(e.target.value) 
+        ? e.target.value
+        :null;
+    })
+    const [lacksBDay, onBirthDate] = useInputDefaults(pd, "birthDate")
+    const [lacksAddress, onAddress] = useInputDefaults(pd, "address");
     return <>
         <h2>Personal Data</h2>
         <TextField
             required
-            error={!!pd.firstName}
+            error={lacksFirstName}
             label="👤 First Name"
-            onChange={ e=> {
-                if (e.target.checkValidity()) {
-                    pd.firstName = e.target.value
-                }
-            }}
+            onInput={onFirstName}
         />
         <TextField
             required
-            error={!!pd.firstName}
+            error={lacksLastName}
             label="👤 Last Name"
-            onChange={ e=> {
-                if (e.target.checkValidity()) {
-                    pd.lastName = e.target.value
-                }
-            }}
+            onInput={onLastName}
         />
-        <TextField
-            required
-            type="tel"
-            error={!!pd.phone}
-            label="📞 Contact Number"
-            onChange={ e=> {
-                if (e.target.checkValidity()) {
-                    pd.phone = e.target.value
-                }
-            }}
+        <PhoneField 
+            error={lacksPhone}
+            onInput={onPhone}
         />
         <InputLabel
             variant="standard"
@@ -52,11 +48,11 @@ export function PersonalDataUI({ pd }) {
             id="sex"
             label="Sex"
             defaultValue=""
-            onChange={e => {
+            onInput={e => {
                 pd.sex = e.target.value
             }}
         >
-            <option value="" disabled={true}>Select sex</option>
+            <option value="" disabled>Select sex</option>
             <option value={Sex.MALE}>♂ Male</option>
             <option value={Sex.FEMALE}>♀ Female</option>
         </NativeSelect>
@@ -68,44 +64,64 @@ export function PersonalDataUI({ pd }) {
             Country
         </InputLabel>
         <Country 
-            onChange={e => {
+            onInput={e => {
                 pd.country = e.target.value;
             }}
         />
         <TextField
             required
             type="date"
-            error={!!pd.birthDate}
+            error={lacksBDay}
             label='🎂 Birthdate:'
             InputLabelProps={{
                 shrink: true,
             }}
-            onChange={e=> {
-                if (e.target.checkValidity()) {
-                    pd.birthDate = e.target.value;
-                }
-            }}
+            onInput={onBirthDate}
         />
         <InputLabel 
             variant="standard" 
             htmlFor="home"
             required
+            error={lacksAddress}
         >
             🏠 Home address:
         </InputLabel>
-        {<TextareaAutosize
+        <TextareaAutosize
             required
             name="home" id="address" cols="30" minRows={5}
             placeholder='Type your home address here'
-            onChange={e=> {
-                if (e.target.checkValidity()) {
-                    pd.address = e.target.value;
-                }
-            }}
-        />}
+            onInput={onAddress}
+        />
     </>
 }
 
+/**
+ * 
+ * @param {string} input 
+ * @implNote the pattern asks for a string with exactly 11 digits
+ */
+function isValidNumber(input) {
+    return /^\d{11}$/.test(input);
+}
+
+/**
+ * 
+ * @param {string} input 
+ * @returns string without non-digits and first 11 digits
+ */
+function filterNumber(input) {
+    return input
+        .replace(/\D/, "")
+        .substring(0,11)
+}
+export function PhoneField({...props}) {
+    return <TextField
+    required
+    type="tel"
+    label="📞 Contact Number"
+    {...props}
+/>
+}
 /**
  * @desc Selection for countries
  */
@@ -373,21 +389,21 @@ export function Country(props) {
  * @param {{pd:PersonalData}} param0
  */
 export function WorkData({ pd }) {
+    const [lacksName, onName] = useInputDefaults(pd, "company");
+    const [lacksAddress, onAddress] = useInputDefaults(pd, "companyAddress");
     return <>
         <h2>Work Data</h2>
         <TextField
+            error={lacksName}
             label="🏢 Company Name"
             name="companyName" id="companyName"
             required 
-            onChange={e=> {
-                if (e.target.checkValidity()) {
-                    pd.company = e.target.value;
-                }
-            }}
+            onInput={onName}
         />
         <InputLabel
             htmlFor='companyAddress'
             required
+            error={lacksAddress}
         >
             🏢 Company address:
         </InputLabel>
@@ -397,11 +413,7 @@ export function WorkData({ pd }) {
             id="companyAddress"
             minRows={5}
             placeholder="Type your company address here"
-            onChange={e=> {
-                if (e.target.checkValidity()) {
-                    pd.companyAddress = e.target.value;
-                }
-            }}
+            onInput={onAddress}
         />
     </>
 }

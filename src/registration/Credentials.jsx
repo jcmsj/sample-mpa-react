@@ -3,6 +3,7 @@ import { SecretLacks, User } from "../lib/User"
 import EmailField from "../lib/EmailField";
 import SecretField from "../lib/SecretField";
 import { Required } from './Required';
+import { useInputDefaults } from '../lib/useInput';
 /**
  * @typedef {{user:User}} UserProps;
  */
@@ -11,34 +12,28 @@ import { Required } from './Required';
  * @param {UserProps} param0
  */
 export default function Credentials({ user }) {
+    const [invalidEmail, onEmail] = useInputDefaults(user, "email");
     const [matches, setMatches] = useState(false);
     const [lacks, setLacking] = useState(User.isUnsecure(""))
-    const [isInvalidEmail, setEmailValidity] = useState(false);
     return <>
         <h2>Credentials</h2>
         <EmailField
-            error={isInvalidEmail}
-            onChange={e => {
-                const isValid = e.target.checkValidity();
-                if (isValid) {
-                    user.email = e.target.value;
-                }
-                setEmailValidity(!isValid);
-            }}
+            error={invalidEmail}
+            onInput={onEmail}
         />
         <SecretField
             error={lacks.length > 0}
             name="new-password"
             autoComplete="new-password"
             id="new-password"
-            onChange={e => setLacking(
+            onInput={e => setLacking(
                 user.setIfSecure(e.target.value)
             )}
         />
         <SecretField 
             label="🔒 Confirm Passphrase"
             error={!matches}
-            onChange={e => setMatches(e.target.value == user.secret)}
+            onInput={e => setMatches(e.target.value == user.secret)}
             id="confirm-password"
         />
         <span className="clex" style={{rowGap: "2vh"}}>
