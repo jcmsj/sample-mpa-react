@@ -1,0 +1,6 @@
+.card {
+    width:max-content;
+    padding: 2vh 2vw;
+    margin: auto;
+    row-gap: 2vh;
+}

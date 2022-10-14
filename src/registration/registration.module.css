@@ -1,0 +1,76 @@
+.card, body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2vh;
+}
+.card {
+    border: 1vmin solid wheat;
+    border-radius: 13px;
+    padding: 2vh 2vw;
+    font-size: 1.4em;
+    margin: auto;
+}
+
+h2 {
+    text-align: center;
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+form {
+    display: flex;
+    column-gap: 2vw;
+    flex-direction: column;
+    row-gap: 8vh;
+    align-items: center;
+}
+input:not(input[type=button], input[type=checkbox], input[type=submit], input[type=date], textarea) {
+    width: 80%;
+}
+input, .select, textarea {
+    font-size: 1.4rem;
+}
+input[type=checkbox] {
+    scale: 2;
+}
+form > span {
+    display: inline-flex;
+    column-gap: 1vmin;
+}
+hr {
+    width: 100%;
+}
+.submit,.alternative {
+    width: max-content;
+    align-self: center;
+}
+.submit {
+    font-size: 1.4rem;
+    background-color: wheat;
+    color: white;
+    transition: ease-in border-color 100ms;
+}
+
+.submit:hover {
+    border-color: black;
+}
+.alternative {
+    color: gray;
+}
+
+.label {
+    padding-bottom: 1vh;
+}
+label::after {
+    content: " ";
+}
+
+.span {
+    display: flex;
+    row-gap: 1vh;
+}
+
+.clex {
+    display: flex;
+    flex-direction: column;
+}

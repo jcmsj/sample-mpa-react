@@ -1,0 +1,33 @@
+:root {
+  --fb-Light:#f7f7f7
+}
+
+@media (orientation: landscape) {
+  :root {
+    font-size: 1.2em;
+  }
+}
+body, #root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: "Consolas";
+  background-color: var(--fb-Light);
+}
+
+#root {
+  display: grid;
+  grid-template-rows: 1fr 10vh;
+}
+main {
+  padding: 1vh 1vw;  
+}
+
+a {
+  text-decoration: none;
+}
+
+.clex {
+  display: flex;
+  flex-direction: column;
+}
